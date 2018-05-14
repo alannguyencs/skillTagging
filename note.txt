@@ -1,3 +1,4 @@
 Step 1: get tag collection by running collectTags.py
 Step 2: analyze the tag collection by running analyzeTags.py
 Step 3: get word collection by running collectWords.py
+Step 4: consider only queries with single tag, train the neural network model.
