@@ -87,7 +87,7 @@ for id, line in enumerate(articleFile):
 
 
 
-import numpy
+import numpy as np
 import pandas
 from keras.models import Sequential
 from keras.layers import Dense
@@ -101,7 +101,7 @@ from sklearn.pipeline import Pipeline
 
 # fix random seed for reproducibility
 seed = 7
-numpy.random.seed(seed)
+np.random.seed(seed)
 
 # define baseline model
 def baseline_model():
@@ -113,7 +113,7 @@ def baseline_model():
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
 
-estimator = KerasClassifier(build_fn=baseline_model, epochs=2, batch_size=5, verbose=0)
+estimator = KerasClassifier(build_fn=baseline_model, epochs=20, batch_size=5, verbose=0)
 kfold = KFold(n_splits=10, shuffle=True, random_state=seed)
-results = cross_val_score(estimator, X, Y, cv=kfold)
+results = cross_val_score(estimator, np.array(X), np.array(Y), cv=kfold)
 print("Baseline: %.2f%% (%.2f%%)" % (results.mean()*100, results.std()*100))

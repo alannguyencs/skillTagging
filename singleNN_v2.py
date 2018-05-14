@@ -1,4 +1,4 @@
-
+import numpy as np
 
 
 
@@ -85,7 +85,8 @@ for id, line in enumerate(articleFile):
             single_x[wordID[word]] = 1.0
     X.append(single_x)
 
-
+X = np.array(X)
+Y = np.array(Y)
 
 # Splitting the dataset into the Training set and Test set
 from sklearn.model_selection import train_test_split
@@ -103,16 +104,18 @@ X_test = sc.transform(X_test)
 import keras
 from keras.models import Sequential
 from keras.layers import Dense
-
+from keras import regularizers
 # Initialising the ANN
 classifier = Sequential()
 
 # Adding the input layer and the first hidden layer
-classifier.add(Dense(6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 1532))
+classifier.add(Dense(2048, kernel_initializer = 'uniform', activation = 'relu', input_dim = 1532))
 
 # Adding the second hidden layer
-classifier.add(Dense(6, kernel_initializer = 'uniform', activation = 'relu'))
-
+classifier.add(Dense(1024, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(512, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(256, kernel_initializer = 'uniform', activation = 'relu'))
+classifier.add(Dense(128, kernel_initializer = 'uniform', activation = 'relu'))
 # Adding the output layer
 classifier.add(Dense(49, kernel_initializer = 'uniform', activation = 'softmax'))
 
@@ -120,7 +123,7 @@ classifier.add(Dense(49, kernel_initializer = 'uniform', activation = 'softmax')
 classifier.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
 # Fitting the ANN to the Training set
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
+classifier.fit(X_train, y_train, batch_size = 25, epochs = 100)
 
 # Part 3 - Making the predictions and evaluating the model
 
